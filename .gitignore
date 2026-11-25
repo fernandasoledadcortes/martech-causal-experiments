@@ -1,0 +1,8 @@
+# R
+.Rhistory
+.RData
+.Rproj.user/
+.Rapp.history
+
+# Sistema
+.DS_Store

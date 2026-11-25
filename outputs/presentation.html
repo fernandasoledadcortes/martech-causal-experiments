@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MarTech Consultant Assessment</title>
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+  <style>
+    .reveal                  { font-size: 20px; }
+    .reveal h1               { font-size: 1.8em; color: #1a1a2e; }
+    .reveal h2               { font-size: 1.25em; color: #2c3e50; }
+    .reveal .slides section  { text-align: left; padding: 10px 50px; }
+    .reveal table            { font-size: 0.7em; border-collapse: collapse;
+                               width: auto; margin-top: 8px; }
+    .reveal table th,
+    .reveal table td         { border: 1px solid #dee2e6; padding: 5px 10px; }
+    .reveal table thead tr   { background: #2c3e50; color: white; }
+    .reveal table tbody tr:nth-child(even) { background: #f8f9fa; }
+    .reveal caption          { caption-side: top; font-weight: 600;
+                               text-align: left; padding-bottom: 5px; font-size: 1em; }
+    .reveal tfoot td         { font-size: 0.82em; color: #6c757d;
+                               border: none; padding-top: 6px; }
+    .insight                 { background: #f0f4ff; border-left: 4px solid #0d6efd;
+                               padding: 10px 14px; border-radius: 4px;
+                               font-size: 0.85em; margin-top: 14px; }
+    .slide-title             { height: 100%; display: flex; flex-direction: column;
+                               justify-content: center; }
+    .slide-title h1          { color: #1a1a2e; font-size: 2em; }
+    .slide-title .sub        { color: #6c757d; font-size: 1em; margin-top: 10px; }
+    /* === INTERACTIVE MODALS === */
+    .tip { border-bottom: 2px dotted #2563EB; color: #2563EB;
+           cursor: pointer; font-weight: 600; }
+    .tip:hover { opacity: 0.75; }
+    .modal-ov { display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45); z-index: 10000;
+      align-items: center; justify-content: center; }
+    .modal-ov.open { display: flex; }
+    .modal-bx { background: #fff; border-radius: 10px; padding: 20px 24px;
+      max-width: 480px; width: 88%; font-size: 0.80em; line-height: 1.65;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2); position: relative; color: #222; }
+    .modal-bx h4 { margin: 0 0 12px; color: #2563EB; font-size: 1.05em; }
+    .modal-bx .eg { background: #f0f4ff; border-left: 3px solid #2563EB;
+      padding: 8px 12px; border-radius: 4px; margin-top: 10px; }
+    .modal-x { position: absolute; top: 8px; right: 12px; cursor: pointer;
+      color: #888; font-size: 1.1em; font-weight: bold;
+      background: none; border: none; line-height: 1; }
+    .modal-x:hover { color: #333; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- COVER SLIDE -->
+<section>
+  <div class="slide-title">
+    <h1>MarTech Consultant Assessment</h1>
+    <p>Causal Inference in Experiments</p>
+    <p style="margin-top:40px; font-size:0.85em;">Fernanda Cortés &nbsp;|&nbsp; 11/24/2026</p>
+  </div>
+</section>
+<section>
+<h2>Exercise 1 — What was tested?</h2>
+<table style="width:100%; font-size:0.8em;">
+   <thead><tr>
+     <th style="background:#2c3e50; color:white; padding:6px; width:25%;">Element</th>
+     <th style="background:#2c3e50; color:white; padding:6px;">Detail</th>
+   </tr></thead>
+   <tbody>
+   <tr><td><strong>Campaign A — Control</strong></td>
+       <td>Standard push notification (no urgency)</td></tr>
+   <tr><td><strong>Campaign B — Treatment</strong></td>
+       <td>Push notification with a 24-hour countdown timer</td></tr>
+   <tr><td><strong>Users</strong></td>
+       <td>50,000 randomly assigned — 24,857 control (50%) | 25,143 treated (50%)<br>
+           <small><span class="tip" data-modal="m-split" style="font-size:0.9em;">Why not exactly 50/50?</span></small></td></tr>
+   <tr><td><strong>Target metrics</strong></td>
+       <td>Conversion rate (did they buy?) and total revenue per user</td></tr>
+   <tr><td><strong>Method</strong></td>
+       <td>RCT — the gold standard for measuring causality</td></tr>
+   </tbody></table>
+   <div class="insight" style="margin-top:14px;">
+     By randomly assigning users, any difference in outcomes is due
+     <span class="tip" data-modal="m-aleatorio">exclusively</span>
+     to the campaign, not to pre-existing differences between groups.
+   </div>
+</section>
+<section>
+<h2>Exercise 1 — Groups are equivalent before the test</h2>
+<p style="font-size:0.78em; color:#555; margin-bottom:8px;">
+   Pre-treatment characteristic comparison. Continuous: mean difference.
+   <span class="tip" data-modal="m-categ">Categorical</span>: percentage distribution by category (difference in pp).
+  </p>
+<table class="table" style="font-size: 13px; width: auto !important; border-bottom: 0;">
+<caption style="font-size: initial !important;">Group characteristics before the experiment</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Variable </th>
+   <th style="text-align:left;"> Control </th>
+   <th style="text-align:left;"> Treated </th>
+   <th style="text-align:left;"> Difference </th>
+   <th style="text-align:right;"> p-value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Recencia (dias) </td>
+   <td style="text-align:left;"> 14.85 </td>
+   <td style="text-align:left;"> 14.98 </td>
+   <td style="text-align:left;"> +0.130 dias </td>
+   <td style="text-align:right;"> 0.330 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Frecuencia (visitas) </td>
+   <td style="text-align:left;"> 4.00 </td>
+   <td style="text-align:left;"> 3.99 </td>
+   <td style="text-align:left;"> -0.008 visitas </td>
+   <td style="text-align:right;"> 0.640 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Duracion de sesion (min) </td>
+   <td style="text-align:left;"> 8.02 </td>
+   <td style="text-align:left;"> 8.01 </td>
+   <td style="text-align:left;"> -0.003 min </td>
+   <td style="text-align:right;"> 0.902 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Puntaje de satisfaccion </td>
+   <td style="text-align:left;"> 7.00 </td>
+   <td style="text-align:left;"> 7.01 </td>
+   <td style="text-align:left;"> +0.004 Puntaje de satisfaccion </td>
+   <td style="text-align:right;"> 0.793 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Antiguedad del dispositivo (anos) </td>
+   <td style="text-align:left;"> 1.99 </td>
+   <td style="text-align:left;"> 2.00 </td>
+   <td style="text-align:left;"> +0.008 anos </td>
+   <td style="text-align:right;"> 0.638 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Canal de adquisicion </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> organic </td>
+   <td style="text-align:left;"> 44.3% </td>
+   <td style="text-align:left;"> 44.4% </td>
+   <td style="text-align:left;"> +0.12 pp </td>
+   <td style="text-align:right;"> 0.779 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> paid_search </td>
+   <td style="text-align:left;"> 32.8% </td>
+   <td style="text-align:left;"> 32.7% </td>
+   <td style="text-align:left;"> -0.05 pp </td>
+   <td style="text-align:right;"> 0.912 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> social </td>
+   <td style="text-align:left;"> 23.0% </td>
+   <td style="text-align:left;"> 22.9% </td>
+   <td style="text-align:left;"> -0.08 pp </td>
+   <td style="text-align:right;"> 0.835 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Plataforma </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> android </td>
+   <td style="text-align:left;"> 34.7% </td>
+   <td style="text-align:left;"> 35.1% </td>
+   <td style="text-align:left;"> +0.44 pp </td>
+   <td style="text-align:right;"> 0.297 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ios </td>
+   <td style="text-align:left;"> 40.5% </td>
+   <td style="text-align:left;"> 39.9% </td>
+   <td style="text-align:left;"> -0.59 pp </td>
+   <td style="text-align:right;"> 0.177 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> web </td>
+   <td style="text-align:left;"> 24.8% </td>
+   <td style="text-align:left;"> 24.9% </td>
+   <td style="text-align:left;"> +0.15 pp </td>
+   <td style="text-align:right;"> 0.702 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Nivel de lealtad </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> bronze </td>
+   <td style="text-align:left;"> 33.4% </td>
+   <td style="text-align:left;"> 33.5% </td>
+   <td style="text-align:left;"> +0.12 pp </td>
+   <td style="text-align:right;"> 0.773 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gold </td>
+   <td style="text-align:left;"> 33.6% </td>
+   <td style="text-align:left;"> 33.5% </td>
+   <td style="text-align:left;"> -0.15 pp </td>
+   <td style="text-align:right;"> 0.727 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> silver </td>
+   <td style="text-align:left;"> 33.0% </td>
+   <td style="text-align:left;"> 33.1% </td>
+   <td style="text-align:left;"> +0.03 pp </td>
+   <td style="text-align:right;"> 0.951 </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%"><span style="font-style: italic;">Note:</span></td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Continuous variables: mean difference (t-test). Categorical variables: % distribution per category (difference in pp).</td></tr>
+</tfoot>
+</table>
+</section>
+<section>
+<h2>Exercise 1 — What does the balance table tell us?</h2>
+<div style="display:flex; gap:20px; margin-top:14px; font-size:0.85em;">
+     <div style="flex:1; background:#f0f4ff; padding:16px; border-radius:8px;
+                 border-left:4px solid #2563EB;">
+       <div style="font-size:1.05em; font-weight:bold; color:#2563EB; margin-bottom:8px;">
+         1. No significant differences between groups
+       </div>
+       No pre-treatment variable shows a statistically significant difference
+       between control and treatment (p &gt; 0.05 in all comparisons),
+       for both continuous variables and the distribution of acquisition
+       channel, platform, and loyalty tier.
+     </div>
+     <div style="flex:1; background:#f0f9f0; padding:16px; border-radius:8px;
+                 border-left:4px solid #16a34a;">
+       <div style="font-size:1.05em; font-weight:bold; color:#16a34a; margin-bottom:8px;">
+         2. No variable predicts group assignment
+       </div>
+       Auxiliary regression: <em>treatment ~ all covariates</em><br>
+       <span class="tip" data-modal="m-regaux">R² = 0.0001 &nbsp;·&nbsp; F = 0.33 &nbsp;·&nbsp; p = 0.980</span><br><br>
+       The covariates jointly <strong>do not predict</strong> which group
+       a user was assigned to.
+     </div>
+   </div>
+   <div class="insight" style="margin-top:14px;">
+     <strong>Conclusion:</strong> randomization is valid. No selection bias.
+     Any observed difference in outcomes is attributable solely to treatment.
+   </div>
+</section>
+<section>
+<h2>Exercise 1 — The countdown push works</h2>
+<div style="display:flex; gap:20px; margin:14px 0;">
+
+     <!-- Conversion -->
+     <div style="flex:1; background:#f0f4ff; padding:16px; border-radius:8px;
+                 border:1px solid #d0d9ff;">
+       <div style="font-size:1.9em; font-weight:bold; color:#2563EB; text-align:center;">
+         +11.4 pp</div>
+       <div style="font-size:0.88em; font-weight:bold; text-align:center; margin:4px 0 10px;">
+         Conversion rate</div>
+       <table style="width:100%; font-size:0.78em; border:none;">
+         <tr>
+           <td style="border:none; color:#555;">Before (control)</td>
+           <td style="border:none; text-align:right; font-weight:bold;">28.1%</td>
+         </tr>
+         <tr>
+           <td style="border:none; color:#555;">After (treated)</td>
+           <td style="border:none; text-align:right; font-weight:bold; color:#2563EB;">39.5%</td>
+         </tr>
+         <tr style="border-top:1px solid #d0d9ff;">
+           <td style="border:none; color:#555;">Relative growth</td>
+           <td style="border:none; text-align:right; font-weight:bold;">+41%</td>
+         </tr>
+         <tr>
+           <td style="border:none; color:#555;">Per 1,000 users</td>
+           <td style="border:none; text-align:right; font-weight:bold;">~114 more purchases</td>
+         </tr>
+       </table>
+     </div>
+
+     <!-- Revenue -->
+     <div style="flex:1; background:#f0f4ff; padding:16px; border-radius:8px;
+                 border:1px solid #d0d9ff;">
+       <div style="font-size:1.9em; font-weight:bold; color:#2563EB; text-align:center;">
+         +$24.25</div>
+       <div style="font-size:0.88em; font-weight:bold; text-align:center; margin:4px 0 10px;">
+         Revenue per user</div>
+       <table style="width:100%; font-size:0.78em; border:none;">
+         <tr>
+           <td style="border:none; color:#555;">Average across all users</td>
+           <td style="border:none; text-align:right; font-weight:bold;">includes non-buyers</td>
+         </tr>
+         <tr style="border-top:1px solid #d0d9ff;">
+           <td style="border:none; color:#555;">Per 1,000 users</td>
+           <td style="border:none; text-align:right; font-weight:bold; color:#2563EB;">
+             ~$24251 more</td>
+         </tr>
+       </table>
+     </div>
+
+   </div>
+   <div class="insight" style="font-size:0.82em;">
+     Both effects are statistically significant
+     (<span class="tip" data-modal="m-pval">p &lt; 0.0001</span>) and replicable.
+     They are not attributable to chance.
+   </div>
+</section>
+<section>
+<h2>Exercise 1 — How does the effect operate?</h2>
+<table class="table" style="width: auto !important; ">
+<caption>Table 3. Supplementary analysis (HC2 robust SE)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Modelo </th>
+   <th style="text-align:right;"> ATE </th>
+   <th style="text-align:right;"> IC 95% inf </th>
+   <th style="text-align:right;"> IC 95% sup </th>
+   <th style="text-align:right;"> p-valor </th>
+   <th style="text-align:right;"> N </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Conversion rate — ANCOVA </td>
+   <td style="text-align:right;"> 0.1146 </td>
+   <td style="text-align:right;"> 0.1064 </td>
+   <td style="text-align:right;"> 0.1227 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 50000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Revenue — ANCOVA </td>
+   <td style="text-align:right;"> 24.2991 </td>
+   <td style="text-align:right;"> 23.0962 </td>
+   <td style="text-align:right;"> 25.5020 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 50000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ticket promedio (solo converters) </td>
+   <td style="text-align:right;"> 29.1144 </td>
+   <td style="text-align:right;"> 27.3585 </td>
+   <td style="text-align:right;"> 30.8704 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 16928 </td>
+  </tr>
+</tbody>
+</table>
+<div class="insight">
+     <strong>A. ANCOVA — confirmation of successful randomization:</strong>
+     adding pre-treatment covariates does not change the estimated ATE.
+     In an RCT this is not "additional precision" — it is evidence that
+     randomization worked: the effect is robust and independent of
+     users' prior characteristics.<br><br>
+     <strong>B. Exploratory analysis — ticket model:</strong>
+     among users who did purchase, the countdown group spent
+     <strong>$29.11 more on average</strong>. <em>Exploratory</em> result:
+     by conditioning on conversion (a post-treatment variable), the estimator
+     may carry selection bias.<br><br>
+     <strong>Next step — Uplift modeling:</strong>
+     an uplift modeling approach could be implemented to identify which user
+     profiles were truly influenced by the countdown push, distinguishing them
+     from those who would likely have converted even without treatment.
+   </div>
+</section>
+<section>
+<h2>Exercise 2 — The effect varies by how the user arrived</h2>
+<p style="font-size:0.82em; color:#555; margin-bottom:8px;">
+   Estimated effect by channel (<span class="tip" data-modal="m-cate">interaction regression</span>).
+   Heterogeneity test: F = 197.406 (p &lt; 0.0001) — differences
+   <strong>are not attributable to chance</strong>.
+   </p>
+<table class="table" style="width: auto !important; ">
+<caption>Table 4. Countdown push effect by acquisition channel</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Channel </th>
+   <th style="text-align:right;"> CATE ($) </th>
+   <th style="text-align:right;"> SE </th>
+   <th style="text-align:right;"> 95% CI lower </th>
+   <th style="text-align:right;"> 95% CI upper </th>
+   <th style="text-align:right;"> p-value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> organic </td>
+   <td style="text-align:right;"> 36.4015 </td>
+   <td style="text-align:right;"> 1.0659 </td>
+   <td style="text-align:right;"> 34.3124 </td>
+   <td style="text-align:right;"> 38.4907 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> paid_search </td>
+   <td style="text-align:right;"> 18.8692 </td>
+   <td style="text-align:right;"> 0.9994 </td>
+   <td style="text-align:right;"> 16.9103 </td>
+   <td style="text-align:right;"> 20.8281 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> social </td>
+   <td style="text-align:right;"> 8.3278 </td>
+   <td style="text-align:right;"> 0.9322 </td>
+   <td style="text-align:right;"> 6.5007 </td>
+   <td style="text-align:right;"> 10.1549 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+</tbody>
+</table>
+<div style="display:flex; gap:20px; margin-top:12px; font-size:0.82em;">
+     <div style="flex:1; background:#f0f4ff; padding:10px 14px; border-radius:6px; border-left:4px solid #2563EB;">
+       <strong>Organic: $36.40</strong><br>High purchase intent. The countdown acts as the final closing nudge.
+     </div>
+     <div style="flex:1; background:#f0f9f0; padding:10px 14px; border-radius:6px; border-left:4px solid #16a34a;">
+       <strong>Paid search: $18.87</strong><br>Has intent but is comparing options. The effect exists but is diluted.
+     </div>
+     <div style="flex:1; background:#fff8f0; padding:10px 14px; border-radius:6px; border-left:4px solid #ea580c;">
+       <strong>Social: $8.33</strong><br>No prior intent. Urgency has little impact.
+     </div>
+   </div>
+</section>
+<section>
+<h2>Exercise 2 — Strategic implication</h2>
+<table style="width:100%; font-size:0.8em; margin-bottom:12px;">
+   <thead><tr>
+     <th style="background:#2c3e50; color:white; padding:6px;">Channel</th>
+     <th style="background:#2c3e50; color:white; padding:6px;">User profile</th>
+     <th style="background:#2c3e50; color:white; padding:6px;">Is the countdown worthwhile?</th>
+   </tr></thead>
+   <tbody>
+   <tr style="background:#f0f4ff;">
+     <td><strong>Organic</strong></td>
+     <td>High purchase intent, knows the brand</td>
+     <td>&#x2705; Top priority — maximum return</td></tr>
+   <tr>
+     <td><strong>Paid search</strong></td>
+     <td>Has intent, but evaluating alternatives</td>
+     <td>&#x2705; Recommended — moderate but positive effect</td></tr>
+   <tr style="background:#fff8f0;">
+     <td><strong>Social</strong></td>
+     <td>Cold discovery, no formed intent</td>
+     <td>&#x26A0;&#xFE0F; Review — marginal effect, potentially inefficient cost</td></tr>
+   </tbody></table>
+   <div class="insight">
+     <strong>Conclusion:</strong> the countdown push is a <em>closing</em> tool,
+     not an <em>acquisition</em> tool. Concentrating the budget on organic and
+     paid search maximizes campaign ROI.
+   </div>
+</section>
+<section>
+<h2>Exercise 3 — Process for redesigning the checkout</h2>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;
+              font-size:0.76em; margin-top:10px;">
+
+   <!-- Step 1 -->
+   <div style="background:#f8f9fa; border-left:4px solid #2563EB;
+               padding:10px 14px; border-radius:4px;">
+     <div style="font-weight:bold; color:#2563EB; margin-bottom:5px;">
+       1. Discovery</div>
+     <b>Quantitative:</b> Identify the exact step where users abandon
+     the cart and the checkout bounce rate.<br>
+     <b>Qualitative:</b> heatmaps and session recordings → detect
+     hesitation on form fields, mobile scroll issues, or UI confusion.
+   </div>
+
+   <!-- Step 2 -->
+   <div style="background:#f8f9fa; border-left:4px solid #2563EB;
+               padding:10px 14px; border-radius:4px;">
+     <div style="font-weight:bold; color:#2563EB; margin-bottom:5px;">
+       2. Hypothesis</div>
+     Every change must respond to a detected problem.<br><br>
+     <em>"If we reduce billing fields from 10 to 5 and remove mandatory
+     account creation, then conversion will increase by 2%,
+     because we reduce friction and cognitive effort."</em>
+   </div>
+
+   <!-- Step 3 -->
+   <div style="background:#f8f9fa; border-left:4px solid #16a34a;
+               padding:10px 14px; border-radius:4px;">
+     <div style="font-weight:bold; color:#16a34a; margin-bottom:5px;">
+       3. Variables</div>
+     <b>Independent:</b> the change itself (1-step vs. 3-step checkout,
+     button color, hiding the navigation menu).<br>
+     <b>Dependent:</b> conversion rate (primary) + time in checkout
+     and cart abandonment rate (secondary).<br>
+     <b>Control:</b> traffic, acquisition sources, active promotions.
+   </div>
+
+   <!-- Step 4 -->
+   <div style="background:#f8f9fa; border-left:4px solid #16a34a;
+               padding:10px 14px; border-radius:4px;">
+     <div style="font-weight:bold; color:#16a34a; margin-bottom:5px;">
+       4. Execution (A/B test)</div>
+     Traffic split randomly:<br>
+     &bull; <b>Group A (control):</b> original checkout<br>
+     &bull; <b>Group B (treatment):</b> modified checkout<br><br>
+     Duration: until the pre-specified N is reached and at least
+     2 full weeks have passed to capture weekly variation.
+   </div>
+
+   <!-- Step 5 — full width -->
+   <div style="grid-column:1/3; background:#f0f4ff;
+               border-left:4px solid #7c3aed; padding:10px 14px; border-radius:4px;">
+     <div style="font-weight:bold; color:#7c3aed; margin-bottom:5px;">
+       5. Analysis &amp; iteration</div>
+     Compare versions using the experimentation software (Braze / Altitude).<br>
+     &bull; <b>Group B converts more</b> → hypothesis validated, change rolled out to all users.<br>
+     &bull; <b>No change or conversion drops</b> → idea discarded, new hypothesis formulated.
+   </div>
+
+   </div>
+</section>
+<section>
+<h2>Exercise 3 — Steps 3 &amp; 4: variables and test design</h2>
+<p style="font-size:0.80em; color:#555; margin-bottom:10px;">
+   The hypothesis (step 2) directly defines what to measure and how to assign.
+   If the problem is checkout friction, the dependent variable is whether the user completed the purchase.
+  </p>
+  <table style="width:100%; font-size:0.77em;">
+  <thead><tr>
+    <th style="background:#2c3e50; color:white; padding:5px; width:28%;">Variable / Decision</th>
+    <th style="background:#2c3e50; color:white; padding:5px;">Choice</th>
+    <th style="background:#2c3e50; color:white; padding:5px;">Justification</th>
+  </tr></thead>
+  <tbody>
+  <tr style="background:#f0f4ff;">
+    <td><strong>&#x2705; Primary metric (OEC)</strong></td>
+    <td>Purchases / users who started checkout</td>
+    <td>Directly measures friction. High frequency, low variance &rarr; manageable N.<br>
+    <em>Revenue:</em> high variance and at checkout the user has already decided what to buy.</td></tr>
+  <tr>
+    <td><strong>Guardrail metrics</strong></td>
+    <td>Revenue/user &middot; NPS &middot; time in checkout &middot; abandonment</td>
+    <td>Detect if conversion is gained but experience or ticket size is lost.</td></tr>
+  <tr style="background:#f8f9fa;">
+    <td><strong>Randomization unit</strong></td>
+    <td>User (user_id), assigned at checkout start</td>
+    <td>Prevents the same user from seeing both versions. This way each person counts once and the conversion rate is measured on the same base in both groups.<br>
+    <em>Old app versions:</em> exclude or analyze separately.</td></tr>
+  <tr>
+    <td><strong>Assignment ratio</strong></td>
+    <td>50% control / 50% treatment</td>
+    <td>Maximizes statistical power for a given N.</td></tr>
+  </tbody></table>
+  <div class="insight" style="margin-top:8px; font-size:0.80em;">
+    Empirical baseline (control group, Ex. 1): <strong>p₀ = 28.1%</strong>.
+    In production, use historical checkout data instead.
+  </div>
+</section>
+<section>
+<h2>Exercise 3 — Step 4: how many users and how long?</h2>
+<div style="display:flex; gap:16px; margin-bottom:12px; font-size:0.80em;">
+     <div style="flex:1; background:#f0f4ff; padding:10px 14px; border-radius:6px;
+                 border-left:4px solid #2563EB;">
+       <strong>Sample size</strong><br>
+       p₀ = 28.1% · MDE = 2 pp · α = 0.05 · power = 80%<br>
+       → <strong>8,100 users per group (16,200 total)</strong>
+     </div>
+     <div style="flex:1; background:#f0f9f0; padding:10px 14px; border-radius:6px;
+                 border-left:4px solid #16a34a;">
+       <strong>Minimum duration</strong><br>
+       max(statistical days, 14 days)<br>
+       14 days = 2 Monday-Sunday cycles. In markets with biweekly pay
+       (days 1 and 15), captures at least one post-payday and one pre-payday period.
+     </div>
+   </div>
+<table class="table" style="width: auto !important; ">
+<caption>Estimated duration for n = 8,100 per group</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Users/day at checkout </th>
+   <th style="text-align:right;"> Days (statistical) </th>
+   <th style="text-align:right;"> Recommended days </th>
+   <th style="text-align:left;"> Active constraint </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 200 </td>
+   <td style="text-align:right;"> 81 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;"> 81 </td>
+   <td style="text-align:left;"> Traffic </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 500 </td>
+   <td style="text-align:right;"> 33 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;"> 33 </td>
+   <td style="text-align:left;"> Traffic </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;background-color: rgba(240, 244, 255, 255) !important;"> 1,000 </td>
+   <td style="text-align:right;background-color: rgba(240, 244, 255, 255) !important;"> 17 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;background-color: rgba(240, 244, 255, 255) !important;"> 17 </td>
+   <td style="text-align:left;background-color: rgba(240, 244, 255, 255) !important;"> Traffic </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2,000 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;"> 14 </td>
+   <td style="text-align:left;"> Weekly cycle </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 5,000 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;"> 14 </td>
+   <td style="text-align:left;"> Weekly cycle </td>
+  </tr>
+</tbody>
+</table>
+<div class="insight" style="margin-top:8px; font-size:0.80em;">
+     With ~1,000 users/day at checkout: minimum <strong>17 days</strong>.
+     High-traffic platforms (&ge;2,000/day) are constrained by the weekly cycle, not sample size.
+   </div>
+</section>
+<section>
+<h2>Exercise 3 — Steps 4/5: risks that can invalidate the test</h2>
+<p style="font-size:0.80em; color:#555; margin-bottom:8px;">
+   Before launching the experiment and before reading the results, verify:
+  </p>
+  <table style="width:100%; font-size:0.74em;">
+  <thead><tr>
+    <th style="background:#2c3e50; color:white; padding:5px; width:18%;">Risk</th>
+    <th style="background:#2c3e50; color:white; padding:5px; width:9%;">Type</th>
+    <th style="background:#2c3e50; color:white; padding:5px;">What can happen?</th>
+    <th style="background:#2c3e50; color:white; padding:5px;">Mitigation</th>
+  </tr></thead>
+  <tbody>
+  <tr>
+    <td><strong>SRM</strong></td><td>Internal</td>
+    <td>Ratio is not 50/50 due to assignment bug &rarr; biased estimator</td>
+    <td>Chi-square on observed vs. expected ratio. If p &lt; 0.01, invalidate.</td></tr>
+  <tr style="background:#f8f9fa;">
+    <td><strong>Bug in the checkout</strong></td><td>Internal</td>
+    <td><em>Critical</em> &rarr; pause;<br>
+    <em>Minor</em> &rarr; continue + document;<br>
+    <em>Segment</em> (e.g. iOS 16) &rarr; exclude and analyze separately</td>
+    <td><strong>Operational monitoring from day 1</strong>: alerts on errors,
+    crashes, load time. Does not interfere with the statistical design.</td></tr>
+  <tr>
+    <td><strong>Peeking</strong></td><td>Internal</td>
+    <td>Reading results before the N target &rarr; FPR can exceed 30% with α = 0.05</td>
+    <td>Pre-register read date and N.<br>
+    <em>No statistical peeking.</em><br>
+    <em>Monitor operational metrics</em> (errors, crashes).</td></tr>
+  <tr style="background:#f8f9fa;">
+    <td><strong>Temporal heterogeneity</strong></td><td>External</td>
+    <td>Hot Sale, Buen Fin, Black Friday: baseline conversion rises &rarr; result does not generalize</td>
+    <td>E-commerce event calendar. If overlap occurs, stratify the analysis.</td></tr>
+  </tbody></table>
+</section>
+<section>
+<h2>Exercise 4 — Are the groups comparable?</h2>
+<p style="font-size:0.80em; color:#555; margin-bottom:8px;">
+   Without randomization, groups may differ <em>before</em> the program.
+   </p>
+<table class="table" style="font-size: 13px; width: auto !important; ">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Variable </th>
+   <th style="text-align:right;"> Control (N=10,833) </th>
+   <th style="text-align:right;"> SD </th>
+   <th style="text-align:right;"> Treated (N=9,167) </th>
+   <th style="text-align:right;"> SD </th>
+   <th style="text-align:right;"> Difference </th>
+   <th style="text-align:right;"> p-value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Revenue pre-período ($) </td>
+   <td style="text-align:right;"> 283.06 </td>
+   <td style="text-align:right;"> 161.65 </td>
+   <td style="text-align:right;"> 375.48 </td>
+   <td style="text-align:right;"> 192.43 </td>
+   <td style="text-align:right;"> +92.42 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Antigüedad (meses) </td>
+   <td style="text-align:right;"> 22.88 </td>
+   <td style="text-align:right;"> 11.63 </td>
+   <td style="text-align:right;"> 25.39 </td>
+   <td style="text-align:right;"> 11.76 </td>
+   <td style="text-align:right;"> +2.52 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NPS score </td>
+   <td style="text-align:right;"> 7.51 </td>
+   <td style="text-align:right;"> 1.51 </td>
+   <td style="text-align:right;"> 7.48 </td>
+   <td style="text-align:right;"> 1.51 </td>
+   <td style="text-align:right;"> -0.03 </td>
+   <td style="text-align:right;"> 0.1425 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Segmento </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> basic </td>
+   <td style="text-align:right;"> 38.2% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> 20.2% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> -18.05 pp </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> standard </td>
+   <td style="text-align:right;"> 49.4% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> 49.8% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> +0.44 pp </td>
+   <td style="text-align:right;"> 0.5339 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> premium </td>
+   <td style="text-align:right;"> 12.4% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> 30.0% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> +17.60 pp </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+</tbody>
+</table>
+<div class="insight" style="font-size:0.80em; margin-top:10px;">
+     <strong>Selection is evident:</strong> enrolled clients start with a higher
+     revenue base ($375 vs $283), are more tenured, and have higher NPS.<br>
+     Direct comparison is not valid: the DiD method is required.
+   </div>
+</section>
+<section>
+<h2>Exercise 4 (Bonus) — Loyalty program: does it work?</h2>
+<table style="width:100%; font-size:0.8em;">
+  <thead><tr>
+    <th style="background:#2c3e50; color:white; padding:6px;">Element</th>
+    <th style="background:#2c3e50; color:white; padding:6px;">Detail</th>
+  </tr></thead>
+  <tbody>
+  <tr><td><strong>Data</strong></td><td>20,000 clients &times; 18 weeks</td></tr>
+  <tr><td><strong>Treatment group</strong></td><td>Enrolled (enrolled=1): 9,167 clients</td></tr>
+  <tr><td><strong>Control group</strong></td><td>Non-enrolled (enrolled=0): 10,833 clients</td></tr>
+  <tr><td><strong>Pre-period</strong></td><td>Weeks 1–9</td></tr>
+  <tr><td><strong>Post-period</strong></td><td>Weeks 10–18</td></tr>
+  </tbody></table>
+  <div class="insight" style="margin-top:12px; font-size:0.85em;">
+    <strong>DiD intuition:</strong> instead of comparing groups directly,
+    we measure how much revenue <em>accelerated</em> after the program started,
+    relative to the control group.
+  </div>
+</section>
+<section>
+<h2>Exercise 4 — Analysis results</h2>
+<table class="table" style="width: auto !important; ">
+<caption>Decomposition: revenue change before and after the program</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Group </th>
+   <th style="text-align:left;"> Pre ($) </th>
+   <th style="text-align:left;"> Post ($) </th>
+   <th style="text-align:right;"> Δ ($) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Enrolled = 1 </td>
+   <td style="text-align:left;"> 375 </td>
+   <td style="text-align:left;"> 482.9 </td>
+   <td style="text-align:right;"> 107.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Enrolled = 0 </td>
+   <td style="text-align:left;"> 282.9 </td>
+   <td style="text-align:left;"> 309.1 </td>
+   <td style="text-align:right;"> 26.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Difference (DiD) </td>
+   <td style="text-align:left;"> — </td>
+   <td style="text-align:left;"> — </td>
+   <td style="text-align:right;"> 81.7 </td>
+  </tr>
+</tbody>
+</table>
+<div style="display:flex; gap:20px; margin-top:14px; font-size:0.82em;">
+     <div style="flex:1; background:#f0f4ff; padding:12px 16px;
+                 border-radius:6px; border-left:4px solid #2563EB;">
+       <div style="font-size:1.6em; font-weight:bold; color:#2563EB;">+$81.72</div>
+       <div><strong>additional per week</strong> for enrolled clients</div>
+       <div style="font-size:0.88em; color:#555; margin-top:4px;">
+         95% CI: [$78.53, $84.91] &nbsp;|&nbsp; p &lt; 0.0001</div>
+     </div>
+     <div style="flex:1; background:#f8f9fa; padding:12px 16px;
+                 border-radius:6px; border-left:4px solid #6c757d; font-size:0.88em;">
+       <strong>How to read the table:</strong><br>
+       Enrolled grew +$107.9/week. Control grew +$26.2/week without the program.
+       The difference-in-differences = program effect.
+     </div>
+   </div>
+</section>
+<section>
+<h2>Exercise 4 — Can we trust the result?</h2>
+<img src="figures/fig_did_trends.png"
+        style="max-height:260px; margin-bottom:10px; border:1px solid #ddd; border-radius:4px;">
+<div class="insight" style="font-size:0.82em;">
+     <strong style="color:#b91c1c;">⚠ Limitation — selection bias:</strong><br>
+     Enrolled clients were already growing faster <em>before</em> the program (weeks 1–9).
+     The result of <strong>+$81.72/week</strong> is the <em>upper bound</em>
+     of the effect: part of it reflects who enrolls (selection), not the program.<br><br>
+     <strong>For the net causal effect</strong>, an RCT or an eligibility
+     discontinuity design would be needed.
+   </div>
+</section>
+</div></div>
+<div id="m-aleatorio" class="modal-ov"><div class="modal-bx"><button class="modal-x">&#x2715;</button><h4>What does "exclusively" mean?</h4>By randomly assigning users, both groups are equivalent before the experiment: same history, same channel, same prior characteristics. Any observed difference afterward can only be due to the campaign.<br><br><div class="eg">Example: if the countdown group converted more, it is not because they were "better buyers" to begin with. They were equivalent. The only difference was the push they received.</div></div></div><div id="m-split" class="modal-ov"><div class="modal-bx"><button class="modal-x">&#x2715;</button><h4>Why not exactly 50/50?</h4>With pure random assignment, landing at exactly 25,000 in each group would be a coincidence. A difference of ~286 users out of 50,000 (0.6%) is completely normal sampling noise.<br><br><div class="eg">It is like flipping a coin 50,000 times: it is nearly impossible to get exactly 25,000 heads and 25,000 tails.</div><br>A statistical test (chi-square) confirms the deviation is consistent with chance.</div></div><div id="m-categ" class="modal-ov"><div class="modal-bx"><button class="modal-x">&#x2715;</button><h4>Why do categorical variables look different?</h4>A <strong>continuous</strong> variable (e.g. device age) has a mean → the means are compared between groups.<br><br>A <strong>categorical</strong> variable (e.g. channel) has no mean: its values are "organic", "paid search" or "social" → the % share of each category is compared between groups.<br><br><div class="eg">Example: 33% of control arrived via organic. 34% of treated arrived via organic. Difference: +1 pp → not significant → the groups are equivalent on that variable.</div></div></div><div id="m-regaux" class="modal-ov"><div class="modal-bx"><button class="modal-x">&#x2715;</button><h4>What is the auxiliary regression?</h4>It is a formal check of randomization. A model is built that tries to predict which group each user was assigned to using their prior characteristics.<br><br>If assignment was random, <em>no characteristic should be able to predict the group</em>.<br><br><strong>R² = 0.0001</strong> → covariates explain 0.01% of variation → practically zero ✅<br><strong>F = 0.33 &nbsp;|&nbsp; p = 0.980</strong> → jointly they do not predict group assignment.<br><br><div class="eg">Conclusion: the assignment was truly random. The experiment is valid.</div></div></div><div id="m-pval" class="modal-ov"><div class="modal-bx"><button class="modal-x">&#x2715;</button><h4>What does p &lt; 0.0001 mean?</h4>The p-value answers: "If the countdown push had no real effect at all, how likely would it be to see a difference this large purely by chance?"<br><br><strong>p &lt; 0.0001</strong> → less than 0.01% probability → so unlikely that we conclude the effect is real.<br><br><div class="eg">Standard convention: if p &lt; 0.05 (5%), the result is not attributable to chance. Here the result is much stronger than that threshold.</div></div></div><div id="m-cate" class="modal-ov"><div class="modal-bx"><button class="modal-x">&#x2715;</button><h4>How was the effect per channel calculated?</h4>Model with interactions between treatment and channel. Reference category: <em>organic</em>.<br><br>Key coefficients:<br>&bull; <strong>β₁ = 36.4</strong> → effect for organic<br>&bull; <strong>β₄ = -17.5</strong> → paid search has 17.5 less than organic<br>&bull; <strong>β₅ = -28.1</strong> → social has 28.1 less than organic<br><br>Final effect:<br>&bull; Organic = <strong>36.4</strong><br>&bull; Paid search = 36.4 + (-17.5) = <strong>18.9</strong><br>&bull; Social = 36.4 + (-28.1) = <strong>8.3</strong><br><br><div class="eg">Negative β₄ and β₅ do not mean a negative effect — they mean the effect is smaller than in organic.</div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({ hash: true, transition: "fade", slideNumber: true, margin: 0.04 });
+function openM(id) { document.getElementById(id).classList.add("open"); }
+document.addEventListener("click", function(e) {
+  if (e.target.classList.contains("modal-ov")) { e.target.classList.remove("open"); }
+  var btn = e.target.closest(".modal-x"); if (btn) { btn.closest(".modal-ov").classList.remove("open"); }
+  var tip = e.target.closest(".tip"); if (tip) { var mid = tip.getAttribute("data-modal"); if (mid) { e.stopPropagation(); openM(mid); } }
+});
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") { document.querySelectorAll(".modal-ov.open").forEach(function(m){ m.classList.remove("open"); }); }
+});
+</script>
+</body></html>

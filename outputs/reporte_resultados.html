@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultados — MarTech Consultant Assessment</title>
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body     { font-family: "Segoe UI", sans-serif; max-width: 960px;
+               margin: 40px auto; padding: 0 20px; color: #222; }
+    h1       { border-bottom: 2px solid #dee2e6; padding-bottom: 10px;
+               margin-bottom: 6px; }
+    h2       { color: #2c3e50; margin-top: 40px; }
+    h3       { color: #495057; margin-top: 28px; }
+    .meta    { color: #6c757d; font-size: 0.9em; margin-bottom: 32px; }
+    .insight { background: #f8f9fa; border-left: 4px solid #0d6efd;
+               padding: 14px 18px; border-radius: 4px; margin: 16px 0; }
+    caption  { caption-side: top; font-weight: 600; text-align: left;
+               padding-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Resultados — MarTech Consultant Assessment</h1>
+  <p class="meta">Campaña push countdown timing vs. push estándar &nbsp;|&nbsp;
+     Dataset: cai_exp_data.csv &nbsp;|&nbsp; Generado: 24/11/2026</p>
+  <h2>Ejercicio 1 — Average Treatment Effect (ATE)</h2>
+  <h3>1.1 Validación del diseño experimental</h3>
+<p>El experimento contó con <strong>50,000 usuarios</strong>:
+   <strong>24,857 en el grupo control</strong> (push estándar, 49.7%) y
+   <strong>25,143 en el grupo tratado</strong> (push countdown, 50.3%).
+   Se verificó el balance de las covariables pre-tratamiento mediante t-tests
+   para variables continuas y tests de proporciones por categoría para
+   variables categóricas.</p>
+<table class="table table-striped table-condensed table-hover" style="width: auto !important; border-bottom: 0;">
+<caption>Tabla 1. Balance de Covariables Pre-Tratamiento</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Variable </th>
+   <th style="text-align:left;"> Control </th>
+   <th style="text-align:left;"> Tratado </th>
+   <th style="text-align:left;"> Diferencia </th>
+   <th style="text-align:right;"> p-valor </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Recencia (dias) </td>
+   <td style="text-align:left;"> 14.85 </td>
+   <td style="text-align:left;"> 14.98 </td>
+   <td style="text-align:left;"> +0.130 dias </td>
+   <td style="text-align:right;"> 0.330 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Frecuencia (visitas) </td>
+   <td style="text-align:left;"> 4.00 </td>
+   <td style="text-align:left;"> 3.99 </td>
+   <td style="text-align:left;"> -0.008 visitas </td>
+   <td style="text-align:right;"> 0.640 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Duracion de sesion (min) </td>
+   <td style="text-align:left;"> 8.02 </td>
+   <td style="text-align:left;"> 8.01 </td>
+   <td style="text-align:left;"> -0.003 min </td>
+   <td style="text-align:right;"> 0.902 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Puntaje de satisfaccion </td>
+   <td style="text-align:left;"> 7.00 </td>
+   <td style="text-align:left;"> 7.01 </td>
+   <td style="text-align:left;"> +0.004 Puntaje de satisfaccion </td>
+   <td style="text-align:right;"> 0.793 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Antiguedad del dispositivo (anos) </td>
+   <td style="text-align:left;"> 1.99 </td>
+   <td style="text-align:left;"> 2.00 </td>
+   <td style="text-align:left;"> +0.008 anos </td>
+   <td style="text-align:right;"> 0.638 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Canal de adquisicion </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> organic </td>
+   <td style="text-align:left;"> 44.3% </td>
+   <td style="text-align:left;"> 44.4% </td>
+   <td style="text-align:left;"> +0.12 pp </td>
+   <td style="text-align:right;"> 0.779 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> paid_search </td>
+   <td style="text-align:left;"> 32.8% </td>
+   <td style="text-align:left;"> 32.7% </td>
+   <td style="text-align:left;"> -0.05 pp </td>
+   <td style="text-align:right;"> 0.912 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> social </td>
+   <td style="text-align:left;"> 23.0% </td>
+   <td style="text-align:left;"> 22.9% </td>
+   <td style="text-align:left;"> -0.08 pp </td>
+   <td style="text-align:right;"> 0.835 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Plataforma </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> android </td>
+   <td style="text-align:left;"> 34.7% </td>
+   <td style="text-align:left;"> 35.1% </td>
+   <td style="text-align:left;"> +0.44 pp </td>
+   <td style="text-align:right;"> 0.297 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ios </td>
+   <td style="text-align:left;"> 40.5% </td>
+   <td style="text-align:left;"> 39.9% </td>
+   <td style="text-align:left;"> -0.59 pp </td>
+   <td style="text-align:right;"> 0.177 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> web </td>
+   <td style="text-align:left;"> 24.8% </td>
+   <td style="text-align:left;"> 24.9% </td>
+   <td style="text-align:left;"> +0.15 pp </td>
+   <td style="text-align:right;"> 0.702 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Nivel de lealtad </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> bronze </td>
+   <td style="text-align:left;"> 33.4% </td>
+   <td style="text-align:left;"> 33.5% </td>
+   <td style="text-align:left;"> +0.12 pp </td>
+   <td style="text-align:right;"> 0.773 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gold </td>
+   <td style="text-align:left;"> 33.6% </td>
+   <td style="text-align:left;"> 33.5% </td>
+   <td style="text-align:left;"> -0.15 pp </td>
+   <td style="text-align:right;"> 0.727 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> silver </td>
+   <td style="text-align:left;"> 33.0% </td>
+   <td style="text-align:left;"> 33.1% </td>
+   <td style="text-align:left;"> +0.03 pp </td>
+   <td style="text-align:right;"> 0.951 </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%"><span style="font-style: italic;">Nota:</span></td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Test chi-cuadrado conjunto (H0: distribución idéntica entre grupos): Canal de adquisicion: p = 0.958 | Plataforma: p = 0.385 | Nivel de lealtad: p = 0.933</td></tr>
+</tfoot>
+</table>
+<div class="insight"><strong>Resultado:</strong> Las características pre-tratamiento están balanceadas entre grupos.
+   Todos los p-valores son superiores a 0.05. El R² de la regresión auxiliar
+   (D ~ covariables) es <strong>0.0001</strong> (F = 0.33, p = 0.980).
+   <strong>La aleatorización es válida.</strong></div>
+  <h3>1.2 Estimación del Average Treatment Effect (ATE)</h3>
+<p>Se estimaron dos modelos principales, uno por cada outcome requerido.
+   Para <em>conversion</em> se utilizó un Modelo de Probabilidad Lineal (LPM):
+   el coeficiente se interpreta directamente en puntos porcentuales.
+   Para <em>revenue</em> se aplicó OLS sobre todos los usuarios (incluye ceros).
+   En ambos casos el estimador crudo es consistente porque la aleatorización
+   garantiza independencia entre el tratamiento y los resultados potenciales.
+   Se reportan errores estándar robustos (HC2).</p>
+<!-- preamble start -->
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tinytable_lwnvdhcm096uo6refjwg</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+<!-- preamble end -->
+
+    <script>
+
+      function styleCell_lwnvdhcm096uo6refjwg(i, j, css_id) {
+          var table = document.getElementById("tinytable_lwnvdhcm096uo6refjwg");
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function spanCell_lwnvdhcm096uo6refjwg(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_lwnvdhcm096uo6refjwg");
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
+        for (let r = 0; r < rowspan; r++) {
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
+            }
+          }
+        }
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 },  ], css_id: 'tinytable_css_8k9rjwnkxyw5hdck2b8e',}, 
+          { positions: [ { i: '2', j: 1 }, { i: '2', j: 2 },  ], css_id: 'tinytable_css_rla4o9qks8tjfirld2ss',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '3', j: 1 }, { i: '3', j: 2 }, { i: '1', j: 1 },  ], css_id: 'tinytable_css_3skg7nv9gfz75ypj3px4',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_pmim0s6h5zcpgmfm3khu',}, 
+          { positions: [ { i: '4', j: 0 },  ], css_id: 'tinytable_css_xawx45spfhwr2rlta5fg',}, 
+          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_seg5lk57x542wyynyi8m',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 },  ], css_id: 'tinytable_css_6ku80o0wmuhbst0l252j',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_74j4nlfmngcbgjvldrpy',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_lwnvdhcm096uo6refjwg(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_8k9rjwnkxyw5hdck2b8e, .table th.tinytable_css_8k9rjwnkxyw5hdck2b8e { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_rla4o9qks8tjfirld2ss, .table th.tinytable_css_rla4o9qks8tjfirld2ss { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_3skg7nv9gfz75ypj3px4, .table th.tinytable_css_3skg7nv9gfz75ypj3px4 { text-align: center; }
+      .table td.tinytable_css_pmim0s6h5zcpgmfm3khu, .table th.tinytable_css_pmim0s6h5zcpgmfm3khu { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_xawx45spfhwr2rlta5fg, .table th.tinytable_css_xawx45spfhwr2rlta5fg { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_seg5lk57x542wyynyi8m, .table th.tinytable_css_seg5lk57x542wyynyi8m { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_6ku80o0wmuhbst0l252j, .table th.tinytable_css_6ku80o0wmuhbst0l252j { text-align: left; }
+      .table td.tinytable_css_74j4nlfmngcbgjvldrpy, .table th.tinytable_css_74j4nlfmngcbgjvldrpy { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_lwnvdhcm096uo6refjwg" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing='true'>
+        <thead>
+        <caption>Tabla 2. Estimación del ATE (SE robustos HC2)</caption>
+              <tr>
+                <th scope="col" data-row="0" data-col="0"> </th>
+                <th scope="col" data-row="0" data-col="1">Conversion rate (LPM)</th>
+                <th scope="col" data-row="0" data-col="2">Revenue</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan='3'>* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="0">Tratamiento (ATE)</td>
+                  <td data-row="1" data-col="1">0.114***</td>
+                  <td data-row="1" data-col="2">24.251***</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="0"></td>
+                  <td data-row="2" data-col="1">(0.004)</td>
+                  <td data-row="2" data-col="2">(0.623)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="0">Num.Obs.</td>
+                  <td data-row="3" data-col="1">50000</td>
+                  <td data-row="3" data-col="2">50000</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="0">R2</td>
+                  <td data-row="4" data-col="1">0.015</td>
+                  <td data-row="4" data-col="2">0.029</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- postamble start -->
+  </body>
+
+</html>
+<!-- postamble end -->
+<!-- hack to avoid NA insertion in last line -->
+<div class="insight">
+     <strong>Resultados:</strong><br>
+     &bull; <strong>Conversion rate:</strong> el countdown push aumentó la tasa de
+     conversión en <strong>11.4 pp</strong> (p = 0.0000, estadísticamente significativo).<br>
+     &bull; <strong>Revenue por usuario:</strong> incremento de
+     <strong>$24.25</strong> en promedio (p = 0.0000, estadísticamente significativo).
+   </div>
+  <h3>1.3 Análisis complementario</h3>
+<p>Los modelos ANCOVA incorporan covariables pre-tratamiento. El modelo de ticket
+   estima el ATE sobre revenue condicional a haber convertido.</p>
+<!-- preamble start -->
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tinytable_z58893y0tglro1r5jkkw</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+<!-- preamble end -->
+
+    <script>
+
+      function styleCell_z58893y0tglro1r5jkkw(i, j, css_id) {
+          var table = document.getElementById("tinytable_z58893y0tglro1r5jkkw");
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function spanCell_z58893y0tglro1r5jkkw(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_z58893y0tglro1r5jkkw");
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
+        for (let r = 0; r < rowspan; r++) {
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
+            }
+          }
+        }
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 }, { i: '4', j: 3 },  ], css_id: 'tinytable_css_q0owd5tc42jx00irqnsf',}, 
+          { positions: [ { i: '2', j: 3 }, { i: '2', j: 1 }, { i: '2', j: 2 },  ], css_id: 'tinytable_css_dtowkwc0n92s7hbeldqz',}, 
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 }, { i: '1', j: 1 }, { i: '1', j: 2 }, { i: '1', j: 3 }, { i: '3', j: 3 },  ], css_id: 'tinytable_css_6mbyo2w9ji9u4rrqpzx8',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 },  ], css_id: 'tinytable_css_99jeocx4pwkewokzd26e',}, 
+          { positions: [ { i: '4', j: 0 },  ], css_id: 'tinytable_css_x6688dsvtdyxb800rc34',}, 
+          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_zcb61etgf2oi47546qou',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 },  ], css_id: 'tinytable_css_jv499ep62c41hilk14le',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_8yelagjhnafr7moqq69o',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_z58893y0tglro1r5jkkw(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_q0owd5tc42jx00irqnsf, .table th.tinytable_css_q0owd5tc42jx00irqnsf { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_dtowkwc0n92s7hbeldqz, .table th.tinytable_css_dtowkwc0n92s7hbeldqz { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_6mbyo2w9ji9u4rrqpzx8, .table th.tinytable_css_6mbyo2w9ji9u4rrqpzx8 { text-align: center; }
+      .table td.tinytable_css_99jeocx4pwkewokzd26e, .table th.tinytable_css_99jeocx4pwkewokzd26e { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_x6688dsvtdyxb800rc34, .table th.tinytable_css_x6688dsvtdyxb800rc34 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_zcb61etgf2oi47546qou, .table th.tinytable_css_zcb61etgf2oi47546qou { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_jv499ep62c41hilk14le, .table th.tinytable_css_jv499ep62c41hilk14le { text-align: left; }
+      .table td.tinytable_css_8yelagjhnafr7moqq69o, .table th.tinytable_css_8yelagjhnafr7moqq69o { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_z58893y0tglro1r5jkkw" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing='true'>
+        <thead>
+        <caption>Tabla 3. Análisis complementario — ANCOVA y efecto sobre ticket (SE robustos HC2)</caption>
+              <tr>
+                <th scope="col" data-row="0" data-col="0"> </th>
+                <th scope="col" data-row="0" data-col="1">Conversion — ANCOVA</th>
+                <th scope="col" data-row="0" data-col="2">Revenue — ANCOVA</th>
+                <th scope="col" data-row="0" data-col="3">Ticket (converters)</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan='4'>* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="0">Tratamiento (ATE)</td>
+                  <td data-row="1" data-col="1">0.115***</td>
+                  <td data-row="1" data-col="2">24.299***</td>
+                  <td data-row="1" data-col="3">29.114***</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="0"></td>
+                  <td data-row="2" data-col="1">(0.004)</td>
+                  <td data-row="2" data-col="2">(0.614)</td>
+                  <td data-row="2" data-col="3">(0.896)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="0">Num.Obs.</td>
+                  <td data-row="3" data-col="1">50000</td>
+                  <td data-row="3" data-col="2">50000</td>
+                  <td data-row="3" data-col="3">16928</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="0">R2</td>
+                  <td data-row="4" data-col="1">0.031</td>
+                  <td data-row="4" data-col="2">0.058</td>
+                  <td data-row="4" data-col="3">0.054</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- postamble start -->
+  </body>
+
+</html>
+<!-- postamble end -->
+<!-- hack to avoid NA insertion in last line -->
+<div class="insight">
+     <strong>A. ANCOVA como confirmación de aleatorización exitosa:</strong>
+     en un RCT correctamente ejecutado, agregar covariables pre-tratamiento
+     no debería cambiar el coeficiente de tratamiento. Que los ATEs sean
+     prácticamente idénticos entre el modelo crudo y el ANCOVA confirma
+     que la asignación fue efectivamente aleatoria: el estimador es robusto
+     e independiente de las características previas de los usuarios.<br><br>
+     <strong>B. Análisis exploratorio — modelo de ticket:</strong>
+     al filtrar solo usuarios con <em>conversion = 1</em> se condiciona en una
+     variable post-tratamiento. Este modelo se reporta con carácter
+     <strong>exploratorio</strong>: el resultado (+$29.11, p = 0.0000) es un
+     <em>indicador de dirección</em>, no un estimador causal validado.<br><br>
+     <strong>Siguiente paso — Uplift modeling:</strong>
+     podría implementarse un enfoque de uplift modeling para identificar qué
+     perfiles de usuarios fueron verdaderamente influenciados por el countdown push,
+     distinguiéndolos de aquellos que probablemente hubieran convertido incluso
+     sin tratamiento.
+   </div>
+  <h2>Ejercicio 2 — Conditional Average Treatment Effect (CATE)</h2>
+<p>Se estimó el CATE por canal de adquisición mediante una regresión con
+   interacciones entre el tratamiento y el canal:</p>
+   <p style="margin-left:20px; font-family:monospace;">
+   y<sub>i</sub> = β₀ + β₁·D<sub>i</sub> + β₂·canal<sub>i</sub> +
+   β₃·(D<sub>i</sub> × canal<sub>i</sub>) + ε<sub>i</sub></p>
+   <p>CATE(k) = β₁ + β₃<sub>k</sub>. Categoría base: <em>organic</em>.</p>
+<!-- preamble start -->
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tinytable_jo55gdtiahhi788yumss</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+<!-- preamble end -->
+
+    <script>
+
+      function styleCell_jo55gdtiahhi788yumss(i, j, css_id) {
+          var table = document.getElementById("tinytable_jo55gdtiahhi788yumss");
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function spanCell_jo55gdtiahhi788yumss(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_jo55gdtiahhi788yumss");
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
+        for (let r = 0; r < rowspan; r++) {
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
+            }
+          }
+        }
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '14', j: 1 },  ], css_id: 'tinytable_css_lgja0g8cj9tnc4h7p5hs',}, 
+          { positions: [ { i: '12', j: 1 },  ], css_id: 'tinytable_css_p8bfnffoynw3u5pzifdz',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '8', j: 1 }, { i: '9', j: 1 }, { i: '10', j: 1 }, { i: '11', j: 1 }, { i: '13', j: 1 },  ], css_id: 'tinytable_css_m5oci0z5ob1smcackz8i',}, 
+          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_5xyj2vjj2o32tsjw2x51',}, 
+          { positions: [ { i: '14', j: 0 },  ], css_id: 'tinytable_css_arpo1lbieiq3f0riwzr5',}, 
+          { positions: [ { i: '12', j: 0 },  ], css_id: 'tinytable_css_hey5zqirsc626hnpej9v',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 }, { i: '5', j: 0 }, { i: '6', j: 0 }, { i: '7', j: 0 }, { i: '8', j: 0 }, { i: '9', j: 0 }, { i: '10', j: 0 }, { i: '11', j: 0 }, { i: '13', j: 0 },  ], css_id: 'tinytable_css_e4822ith3c21djj2zwx0',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_dv7pk5jvs3lp3ub6pqhs',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_jo55gdtiahhi788yumss(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_lgja0g8cj9tnc4h7p5hs, .table th.tinytable_css_lgja0g8cj9tnc4h7p5hs { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_p8bfnffoynw3u5pzifdz, .table th.tinytable_css_p8bfnffoynw3u5pzifdz { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_m5oci0z5ob1smcackz8i, .table th.tinytable_css_m5oci0z5ob1smcackz8i { text-align: center; }
+      .table td.tinytable_css_5xyj2vjj2o32tsjw2x51, .table th.tinytable_css_5xyj2vjj2o32tsjw2x51 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_arpo1lbieiq3f0riwzr5, .table th.tinytable_css_arpo1lbieiq3f0riwzr5 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_hey5zqirsc626hnpej9v, .table th.tinytable_css_hey5zqirsc626hnpej9v { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_e4822ith3c21djj2zwx0, .table th.tinytable_css_e4822ith3c21djj2zwx0 { text-align: left; }
+      .table td.tinytable_css_dv7pk5jvs3lp3ub6pqhs, .table th.tinytable_css_dv7pk5jvs3lp3ub6pqhs { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_jo55gdtiahhi788yumss" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing='true'>
+        <thead>
+        <caption>Tabla 5. Coeficientes del modelo con interacciones (SE robustos HC2)</caption>
+              <tr>
+                <th scope="col" data-row="0" data-col="0"> </th>
+                <th scope="col" data-row="0" data-col="1">Revenue ~ treatment × canal</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan='2'>* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="0">(Intercept)</td>
+                  <td data-row="1" data-col="1">34.080***</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="0"></td>
+                  <td data-row="2" data-col="1">(0.598)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="0">treatment</td>
+                  <td data-row="3" data-col="1">36.402***</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="0"></td>
+                  <td data-row="4" data-col="1">(1.066)</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="0">canalpaid_search</td>
+                  <td data-row="5" data-col="1">0.890</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="0"></td>
+                  <td data-row="6" data-col="1">(0.859)</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="0">canalsocial</td>
+                  <td data-row="7" data-col="1">−12.979***</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="0"></td>
+                  <td data-row="8" data-col="1">(0.828)</td>
+                </tr>
+                <tr>
+                  <td data-row="9" data-col="0">treatment × canalpaid_search</td>
+                  <td data-row="9" data-col="1">−17.532***</td>
+                </tr>
+                <tr>
+                  <td data-row="10" data-col="0"></td>
+                  <td data-row="10" data-col="1">(1.461)</td>
+                </tr>
+                <tr>
+                  <td data-row="11" data-col="0">treatment × canalsocial</td>
+                  <td data-row="11" data-col="1">−28.074***</td>
+                </tr>
+                <tr>
+                  <td data-row="12" data-col="0"></td>
+                  <td data-row="12" data-col="1">(1.416)</td>
+                </tr>
+                <tr>
+                  <td data-row="13" data-col="0">Num.Obs.</td>
+                  <td data-row="13" data-col="1">50000</td>
+                </tr>
+                <tr>
+                  <td data-row="14" data-col="0">R2</td>
+                  <td data-row="14" data-col="1">0.058</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- postamble start -->
+  </body>
+
+</html>
+<!-- postamble end -->
+<!-- hack to avoid NA insertion in last line -->
+  <h3>2.1 CATE por canal</h3>
+<table class="table table-striped table-condensed table-hover" style="width: auto !important; border-bottom: 0;">
+<caption>Tabla 4. CATE por canal de adquisición (SE robustos HC2)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Canal </th>
+   <th style="text-align:right;"> CATE ($) </th>
+   <th style="text-align:right;"> SE </th>
+   <th style="text-align:right;"> IC 95% inf </th>
+   <th style="text-align:right;"> IC 95% sup </th>
+   <th style="text-align:right;"> p-valor </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> organic </td>
+   <td style="text-align:right;"> 36.4015 </td>
+   <td style="text-align:right;"> 1.0659 </td>
+   <td style="text-align:right;"> 34.3124 </td>
+   <td style="text-align:right;"> 38.4907 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> paid_search </td>
+   <td style="text-align:right;"> 18.8692 </td>
+   <td style="text-align:right;"> 0.9994 </td>
+   <td style="text-align:right;"> 16.9103 </td>
+   <td style="text-align:right;"> 20.8281 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> social </td>
+   <td style="text-align:right;"> 8.3278 </td>
+   <td style="text-align:right;"> 0.9322 </td>
+   <td style="text-align:right;"> 6.5007 </td>
+   <td style="text-align:right;"> 10.1549 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%"><span style="font-style: italic;">Nota:</span></td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Test de heterogeneidad conjunta (H0: CATE igual en todos los canales): F = 197.406, p = 0.0000.</td></tr>
+</tfoot>
+</table>
+<div class="insight">
+     <strong>Interpretación:</strong>
+     El canal con mayor efecto incremental es <strong>organic</strong>
+     (CATE = $36.40), mientras que el de menor efecto es <strong>social</strong>
+     (CATE = $8.33). La heterogeneidad entre canales es estadísticamente significativa.
+   </div>
+<h3>2.2 Lectura de marketing</h3>
+   <ul>
+     <li><strong>Organic ($36.4):</strong> usuario con intención de compra,
+     conoce la marca. El countdown actúa como el último empujón para cerrar.</li>
+     <li><strong>Paid search ($18.9):</strong> tiene intención pero compara
+     alternativas. El efecto existe pero es moderado.</li>
+     <li><strong>Social ($8.3):</strong> descubrió el producto en el feed,
+     sin intención previa. El countdown tiene impacto marginal.</li>
+   </ul>
+   <p><strong>Implicancia:</strong> el countdown push es una herramienta de
+   <em>cierre</em>, no de <em>descubrimiento</em>. Su valor máximo está en
+   usuarios con intención formada.</p>
+<h2>Ejercicio 3 — Diseño Experimental: Rediseño del Checkout Flow</h2>
+<h3>3.1 Definición del experimento</h3>
+<table class="table table-bordered" style="width:100%">
+   <thead><tr>
+     <th style="width:25%">Dimensión</th><th>Decisión</th><th>Justificación</th>
+   </tr></thead>
+   <tbody>
+   <tr>
+     <td><strong>Unidad de aleatorización</strong></td>
+     <td>Usuario (<code>user_id</code> persistente), asignado al iniciar el checkout</td>
+     <td>Aleatorizar por sesión viola SUTVA: el mismo usuario podría ver ambas versiones.
+     El <code>user_id</code> garantiza asignación consistente entre visitas.<br><br>
+     <strong>Momento de asignación:</strong> al iniciar el checkout (no al abrir la app).
+     El denominador relevante son los usuarios que llegaron al checkout.<br><br>
+     <strong>Usuarios no autenticados:</strong> usar cookie persistente como proxy.<br><br>
+     <strong>Versión de app:</strong> usuarios con versiones anteriores pueden no
+     renderizar el nuevo checkout. Filtrar por versión mínima o reportar por versión.</td>
+   </tr>
+   <tr>
+     <td><strong>Ratio de asignación</strong></td>
+     <td>50% control / 50% tratado</td>
+     <td>Maximiza el poder estadístico para un N dado.</td>
+   </tr>
+   <tr>
+     <td><strong>Métrica primaria (OEC)</strong></td>
+     <td>Tasa de conversión del checkout<br>= compras completadas / usuarios que iniciaron el checkout</td>
+     <td>Indicador directo de la fricción del checkout. Alta frecuencia de ocurrencia
+     y baja varianza vs. revenue. Ver sección 3.1.1.</td>
+   </tr>
+   <tr>
+     <td><strong>Métricas guardrail</strong></td>
+     <td>Revenue/usuario · tiempo en checkout · tasa de abandono · NPS</td>
+     <td>Detectan si se gana conversión a costa de experiencia o ticket.</td>
+   </tr>
+   <tr>
+     <td><strong>Duración mínima</strong></td>
+     <td>max(días estadísticos, 14 días) + período de burn-in opcional</td>
+     <td>Los 14 días cubren dos ciclos lunes-domingo completos. El burn-in descarta
+     el efecto de aprendizaje del nuevo flujo en los primeros días.</td>
+   </tr>
+   </tbody></table>
+<h4>3.1.1 Elección de la métrica primaria</h4>
+<table class="table table-bordered" style="width:100%">
+   <thead><tr>
+     <th>Métrica candidata</th><th>Tipo</th><th>Ventaja</th><th>Limitación</th>
+   </tr></thead>
+   <tbody>
+   <tr style="background:#f0f4ff;">
+     <td><strong>✅ Tasa de conversión del checkout</strong><br>
+     <small>= compras / usuarios que iniciaron checkout</small></td>
+     <td>Primaria</td>
+     <td>Directamente ligada al objetivo; alta frecuencia; baja varianza.</td>
+     <td>No captura si el ticket cambia.</td>
+   </tr>
+   <tr>
+     <td>Revenue por usuario</td><td>Secundaria</td>
+     <td>Captura el efecto completo (conversión × ticket).</td>
+     <td>(1) Conceptual: al iniciar el checkout el usuario ya decidió qué comprar;
+     el rediseño afecta si <em>completa</em> la compra, no cuánto gasta.
+     (2) Estadística: alta varianza → requiere N mucho mayor.</td>
+   </tr>
+   <tr>
+     <td>Tasa de abandono del carrito</td><td>Complementaria</td>
+     <td>Identifica en qué paso se pierde el usuario.</td>
+     <td>Métrica intermedia, no final.</td>
+   </tr>
+   <tr>
+     <td>Tiempo hasta completar el checkout</td><td>Guardrail</td>
+     <td>Detecta si el nuevo flujo es más lento.</td>
+     <td>No mide si el usuario compra.</td>
+   </tr>
+   <tr>
+     <td>NPS / satisfacción post-compra</td><td>Guardrail</td>
+     <td>Captura la experiencia percibida.</td>
+     <td>Señal retrasada; alta tasa de no-respuesta.</td>
+   </tr>
+   </tbody></table>
+   <div class="insight">
+     <strong>Criterio de selección:</strong> tasa de conversión es la opción dominante.
+     Revenue se reporta como métrica secundaria para validar que el efecto se traslada
+     al resultado de negocio.
+   </div>
+<h3>3.2 Cálculo de poder estadístico</h3>
+<p>Baseline empírico: <strong>p₀ = 28.1%</strong>. MDE de 2 pp implica
+   detectar un incremento de 28.1% a 30.1%.</p>
+   <p style="margin-left:20px; font-family:monospace; background:#f8f9fa; padding:10px; border-radius:4px;">
+   n = 2 × (z<sub>α/2</sub> + z<sub>β</sub>)² × p̄(1−p̄) / δ²<br><br>
+   z<sub>α/2</sub> = 1.9600 &nbsp;|&nbsp; z<sub>β</sub> = 0.8416 &nbsp;|&nbsp;
+   p̄ = 0.2912 &nbsp;|&nbsp; δ = 2.00 pp<br><br>
+   <strong>n = 8,100 por grupo (16,200 total)</strong></p>
+<div class="insight">
+     Con p₀ = <strong>28.1%</strong> y MDE = <strong>2 pp</strong>
+     (α = 0.05, poder = 0.80): <strong>8,100 usuarios por grupo</strong>
+     (16,200 en total). Consistente con <code>power.prop.test()</code> (n = 8,099).
+   </div>
+<h4>3.2.1 Análisis de sensibilidad</h4>
+<table class="table table-striped table-condensed table-hover" style="width: auto !important; border-bottom: 0;">
+<caption>Tabla 6. Tamaño de muestra requerido por grupo (alpha=0.05, poder=0.80)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Baseline (p0) </th>
+   <th style="text-align:right;"> 1 pp </th>
+   <th style="text-align:right;"> 2 pp </th>
+   <th style="text-align:right;"> 3 pp </th>
+   <th style="text-align:right;"> 5 pp </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 10% </td>
+   <td style="text-align:right;"> 14,751 </td>
+   <td style="text-align:right;"> 3,841 </td>
+   <td style="text-align:right;"> 1,774 </td>
+   <td style="text-align:right;"> 686 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 20% </td>
+   <td style="text-align:right;"> 25,583 </td>
+   <td style="text-align:right;"> 6,510 </td>
+   <td style="text-align:right;"> 2,943 </td>
+   <td style="text-align:right;"> 1,094 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;"> 28% </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;"> 31,987 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;"> 8,080 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;"> 3,627 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(232, 244, 248, 255) !important;"> 1,330 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 35% </td>
+   <td style="text-align:right;"> 35,943 </td>
+   <td style="text-align:right;"> 9,041 </td>
+   <td style="text-align:right;"> 4,042 </td>
+   <td style="text-align:right;"> 1,471 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 50% </td>
+   <td style="text-align:right;"> 39,240 </td>
+   <td style="text-align:right;"> 9,806 </td>
+   <td style="text-align:right;"> 4,356 </td>
+   <td style="text-align:right;"> 1,565 </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%"><span style="font-style: italic;">Nota:</span></td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Fila resaltada: baseline empírico del grupo control (Ejercicio 1).</td></tr>
+</tfoot>
+</table>
+<h4>3.2.2 Duración del experimento</h4>
+<p>Dos restricciones simultáneas:</p>
+   <ul>
+     <li><strong>Estadística:</strong> días = ⌈ 16,200 usuarios / tráfico_diario ⌉.</li>
+     <li><strong>Ciclo semanal / quincenal:</strong> mínimo 14 días para capturar
+     la variación lunes-domingo. En mercados con cobro quincenal (días 1 y 15,
+     frecuente en México), 2 semanas garantizan al menos un período post-cobro
+     y uno sin pago — el comportamiento de compra difiere entre ambos.</li>
+   </ul>
+   <p><strong>Duración recomendada = max(días estadísticos, 14 días)</strong></p>
+   <p><em>Nota sobre el baseline:</em> p₀ = 28.1% proviene del grupo control del
+   Ejercicio 1 (push notifications). En un escenario ideal el baseline debería
+   calcularse a partir de datos históricos del checkout actual (último mes sin
+   intervenciones).</p>
+<table class="table table-striped table-condensed table-hover" style="width: auto !important; border-bottom: 0;">
+<caption>Tabla: Duración estimada del experimento según tráfico diario
+                        (N requerido: 8,100 por grupo, 16,200 total)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Usuarios/día en checkout </th>
+   <th style="text-align:right;"> Días (estadístico) </th>
+   <th style="text-align:right;"> Días recomendados </th>
+   <th style="text-align:left;"> Restricción activa </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 200 </td>
+   <td style="text-align:right;"> 81 </td>
+   <td style="text-align:right;font-weight: bold;"> 81 </td>
+   <td style="text-align:left;"> Tráfico </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 500 </td>
+   <td style="text-align:right;"> 33 </td>
+   <td style="text-align:right;font-weight: bold;"> 33 </td>
+   <td style="text-align:left;"> Tráfico </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1,000 </td>
+   <td style="text-align:right;"> 17 </td>
+   <td style="text-align:right;font-weight: bold;"> 17 </td>
+   <td style="text-align:left;"> Tráfico </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;background-color: rgba(255, 248, 240, 255) !important;"> 2,000 </td>
+   <td style="text-align:right;background-color: rgba(255, 248, 240, 255) !important;"> 9 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(255, 248, 240, 255) !important;"> 14 </td>
+   <td style="text-align:left;background-color: rgba(255, 248, 240, 255) !important;"> Ciclo semanal </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;background-color: rgba(255, 248, 240, 255) !important;"> 5,000 </td>
+   <td style="text-align:right;background-color: rgba(255, 248, 240, 255) !important;"> 4 </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(255, 248, 240, 255) !important;"> 14 </td>
+   <td style="text-align:left;background-color: rgba(255, 248, 240, 255) !important;"> Ciclo semanal </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%"><span style="font-style: italic;">Nota:</span></td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Filas con fondo naranja: la restricción de ciclo semanal (14 días) domina.</td></tr>
+</tfoot>
+</table>
+<div class="insight">
+     <strong>Implicancia:</strong> plataformas con alto tráfico (≥2,000/día)
+     están restringidas por el ciclo semanal, no por el tamaño muestral.
+   </div>
+<h3>3.3 Amenazas a la validez interna y externa</h3>
+<table class="table table-bordered" style="width:100%">
+   <thead><tr>
+     <th style="width:20%">Amenaza</th><th style="width:15%">Tipo</th>
+     <th>Descripción</th><th>Mitigación</th>
+   </tr></thead>
+   <tbody>
+   <tr>
+     <td><strong>SRM</strong></td><td>Interna</td>
+     <td>El ratio tratados/control difiere del esperado (50/50): bug en la asignación.
+     Consecuencia: estimador sesgado y errores estándar incorrectos.</td>
+     <td>Chi-cuadrado de bondad de ajuste sobre el ratio observado vs. esperado:
+     <code>chisq.test(x = c(n_ctrl, n_trat), p = c(0.5, 0.5))</code>.
+     Si p &lt; 0.01, SRM confirmado — invalidar y revisar logs. No corregir post-hoc.</td>
+   </tr>
+   <tr>
+     <td><strong>Bug en el checkout</strong></td><td>Interna</td>
+     <td>El nuevo checkout tiene errores. Consecuencias directas: pérdida de revenue
+     y datos inutilizables. Tres escenarios:<br><br>
+     <strong>Crítico</strong> — falla para una fracción significativa del grupo tratado.
+     Acción: pausar de inmediato.<br><br>
+     <strong>Menor</strong> — error visual sin impacto medible en la conversión.
+     Acción: continuar y documentar el período.<br><br>
+     <strong>Segmento específico</strong> — bug solo en iOS 16 o versión &lt; 3.2.
+     Acción: excluir ese segmento y reportar por separado.</td>
+     <td><strong>Monitoreo operativo desde el día 1</strong> (distinto del estadístico):
+     alertas sobre tasa de errores HTTP, tiempo de carga, crashes, abandonos por paso.
+     No lee resultados del experimento → no rompe el diseño estadístico.</td>
+   </tr>
+   <tr>
+     <td><strong>Peeking</strong></td><td>Interna</td>
+     <td>Leer los resultados estadísticos antes del N pre-especificado infla la tasa
+     de falsos positivos. Con α = 0.05 y múltiples lecturas puede superar el 30%.</td>
+     <td>Pre-registrar fecha de lectura y N objetivo.<br><br>
+     <em>No hacer peeking estadístico</em> (tasa de conversión).<br>
+     <em>Sí monitorear las métricas operativas</em> (errores, crashes) — no afecta el FPR.<br><br>
+     Alternativa: Sequential Testing (always-valid p-values).</td>
+   </tr>
+   <tr>
+     <td><strong>Heterogeneidad temporal</strong></td><td>Externa</td>
+     <td>Experimento durante períodos atípicos: <strong>Hot Sale</strong> (mayo),
+     <strong>Buen Fin</strong> (noviembre) o <strong>Black Friday</strong> elevan
+     la conversión basal. El estimador no generaliza al resto del año.</td>
+     <td>Mantener calendario de eventos e-commerce. Si hay coincidencia por razones
+     operativas, estratificar el análisis (período especial vs. normal) y reportar
+     los efectos por separado.</td>
+   </tr>
+   </tbody></table>
+  <h2>Ejercicio 4 (Bonus) — Difference-in-Differences</h2>
+<p>Con los datos observacionales (<code>cai_obs_data.csv</code>) se estimó el efecto
+   del programa de fidelización sobre el revenue semanal. A diferencia del Ejercicio 1,
+   aquí <strong>no hay aleatorización</strong>: los clientes eligieron inscribirse.</p>
+<h3>4.0 Balance de covariables por grupo</h3>
+<p>Comparación de inscriptos (N=9,167) y no inscriptos (N=10,833) en el pre-período.
+   En datos observacionales se espera desbalance.</p>
+<table class="table table-striped table-condensed table-hover" style="width: auto !important; border-bottom: 0;">
+<caption>Tabla 7. Balance de covariables observables por grupo (pre-período)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Variable </th>
+   <th style="text-align:right;"> Control (N=10,833) </th>
+   <th style="text-align:right;"> SD </th>
+   <th style="text-align:right;"> Tratados (N=9,167) </th>
+   <th style="text-align:right;"> SD </th>
+   <th style="text-align:right;"> Diferencia </th>
+   <th style="text-align:right;"> p-valor </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Revenue pre-período ($) </td>
+   <td style="text-align:right;"> 283.06 </td>
+   <td style="text-align:right;"> 161.65 </td>
+   <td style="text-align:right;"> 375.48 </td>
+   <td style="text-align:right;"> 192.43 </td>
+   <td style="text-align:right;"> +92.42 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Antigüedad (meses) </td>
+   <td style="text-align:right;"> 22.88 </td>
+   <td style="text-align:right;"> 11.63 </td>
+   <td style="text-align:right;"> 25.39 </td>
+   <td style="text-align:right;"> 11.76 </td>
+   <td style="text-align:right;"> +2.52 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NPS score </td>
+   <td style="text-align:right;"> 7.51 </td>
+   <td style="text-align:right;"> 1.51 </td>
+   <td style="text-align:right;"> 7.48 </td>
+   <td style="text-align:right;"> 1.51 </td>
+   <td style="text-align:right;"> -0.03 </td>
+   <td style="text-align:right;"> 0.1425 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Segmento </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> basic </td>
+   <td style="text-align:right;"> 38.2% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> 20.2% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> -18.05 pp </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> standard </td>
+   <td style="text-align:right;"> 49.4% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> 49.8% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> +0.44 pp </td>
+   <td style="text-align:right;"> 0.5339 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> premium </td>
+   <td style="text-align:right;"> 12.4% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> 30.0% </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> +17.60 pp </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%"><span style="font-style: italic;">Nota:</span></td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Variables continuas: t-test. Segmento: t-test por categoría. Región: χ² p = 0.8716. App version: χ² p = 0.4025.</td></tr>
+</tfoot>
+</table>
+<div class="insight">
+     <strong>Desbalance confirmado:</strong> los inscriptos parten de revenue base
+     $375 vs $283, mayor antigüedad y mayor NPS. La inscripción <strong>no es
+     aleatoria</strong>. El DiD controla por diferencias de nivel, no de tendencias.
+   </div>
+  <h3>4.1 Test de tendencias paralelas (pre-período)</h3>
+<div class="insight">
+     <strong>H0:</strong> la tendencia pre-tratamiento es igual entre grupos.<br>
+     <strong>Resultado:</strong> F = 998.601, p = 0.0000. Se rechaza H0: tendencias difieren. Interpretar ATT como cota superior.
+   </div>
+<figure style="margin:1em 0;">
+     <img src="figures/fig_did_trends.png"
+          style="max-width:100%; border:1px solid #e0e0e0; border-radius:4px;">
+     <figcaption style="font-size:0.85em; color:#555; margin-top:4px;">
+       Figura 1. Tendencias de revenue promedio por semana y grupo de inscripción.
+     </figcaption>
+   </figure>
+  <h3>4.2 Descomposición de la doble diferencia</h3>
+<table class="table table-striped table-condensed table-hover" style="width: auto !important; border-bottom: 0;">
+<caption>Tabla 8. Descomposición de la doble diferencia</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Grupo </th>
+   <th style="text-align:left;"> Pre ($) </th>
+   <th style="text-align:left;"> Post ($) </th>
+   <th style="text-align:right;"> Δ ($) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Enrolled = 1 </td>
+   <td style="text-align:left;"> 375 </td>
+   <td style="text-align:left;"> 482.9 </td>
+   <td style="text-align:right;"> 107.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Enrolled = 0 </td>
+   <td style="text-align:left;"> 282.9 </td>
+   <td style="text-align:left;"> 309.1 </td>
+   <td style="text-align:right;"> 26.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;font-weight: bold;background-color: rgba(239, 246, 255, 255) !important;"> Diferencia (DiD) </td>
+   <td style="text-align:left;font-weight: bold;background-color: rgba(239, 246, 255, 255) !important;"> — </td>
+   <td style="text-align:left;font-weight: bold;background-color: rgba(239, 246, 255, 255) !important;"> — </td>
+   <td style="text-align:right;font-weight: bold;background-color: rgba(239, 246, 255, 255) !important;"> 81.7 </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%"><span style="font-style: italic;">Nota:</span></td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> ATT (δ) = $81.72/semana (SE = 1.63, p = 0.0000, IC 95%: [$78.53, $84.91]).</td></tr>
+</tfoot>
+</table>
+  <h3>4.3 Modelos DiD</h3>
+<!-- preamble start -->
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tinytable_na0qb5yu5eg0mhfnbd2c</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+<!-- preamble end -->
+
+    <script>
+
+      function styleCell_na0qb5yu5eg0mhfnbd2c(i, j, css_id) {
+          var table = document.getElementById("tinytable_na0qb5yu5eg0mhfnbd2c");
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function spanCell_na0qb5yu5eg0mhfnbd2c(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_na0qb5yu5eg0mhfnbd2c");
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
+        for (let r = 0; r < rowspan; r++) {
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
+            }
+          }
+        }
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 },  ], css_id: 'tinytable_css_93tmly9e978nz10np3ia',}, 
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 },  ], css_id: 'tinytable_css_47mhhxgrnfxmsjbb379d',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '2', j: 1 }, { i: '1', j: 2 },  ], css_id: 'tinytable_css_woaj1ds3x27r3fz83fcg',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_v5mni74ev1jbls8gtcug',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_bk4dbhm8cdavnasjlx7i',}, 
+          { positions: [ { i: '4', j: 0 },  ], css_id: 'tinytable_css_jn0fkj3y0kt6nozqww1u',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '3', j: 0 },  ], css_id: 'tinytable_css_z8v22z6igcjzfddyf37n',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_fuq2c5ugyapwaahm0hnp',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_na0qb5yu5eg0mhfnbd2c(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_93tmly9e978nz10np3ia, .table th.tinytable_css_93tmly9e978nz10np3ia { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_47mhhxgrnfxmsjbb379d, .table th.tinytable_css_47mhhxgrnfxmsjbb379d { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_woaj1ds3x27r3fz83fcg, .table th.tinytable_css_woaj1ds3x27r3fz83fcg { text-align: center; }
+      .table td.tinytable_css_v5mni74ev1jbls8gtcug, .table th.tinytable_css_v5mni74ev1jbls8gtcug { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_bk4dbhm8cdavnasjlx7i, .table th.tinytable_css_bk4dbhm8cdavnasjlx7i { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_jn0fkj3y0kt6nozqww1u, .table th.tinytable_css_jn0fkj3y0kt6nozqww1u { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_z8v22z6igcjzfddyf37n, .table th.tinytable_css_z8v22z6igcjzfddyf37n { text-align: left; }
+      .table td.tinytable_css_fuq2c5ugyapwaahm0hnp, .table th.tinytable_css_fuq2c5ugyapwaahm0hnp { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_na0qb5yu5eg0mhfnbd2c" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing='true'>
+        <thead>
+        <caption>Tabla 9. Modelos DiD (SE clusterizados por client_id)</caption>
+              <tr>
+                <th scope="col" data-row="0" data-col="0"> </th>
+                <th scope="col" data-row="0" data-col="1">(1) FE semana</th>
+                <th scope="col" data-row="0" data-col="2">(2) TWFE</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan='3'>* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="0">Enrolled (β)</td>
+                  <td data-row="1" data-col="1">92.115***</td>
+                  <td data-row="1" data-col="2"></td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="0"></td>
+                  <td data-row="2" data-col="1">(2.536)</td>
+                  <td data-row="2" data-col="2"></td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="0">Enrolled × Post = ATT (δ)</td>
+                  <td data-row="3" data-col="1">81.719***</td>
+                  <td data-row="3" data-col="2">83.467***</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="0"></td>
+                  <td data-row="4" data-col="1">(1.630)</td>
+                  <td data-row="4" data-col="2">(1.658)</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="0">Num.Obs.</td>
+                  <td data-row="5" data-col="1">352966</td>
+                  <td data-row="5" data-col="2">352966</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- postamble start -->
+  </body>
+
+</html>
+<!-- postamble end -->
+<!-- hack to avoid NA insertion in last line -->
+<div class="insight">
+     <strong>FE semana:</strong> ATT = <strong>$81.72/semana</strong>
+     (SE=1.63, IC 95%: [$78.53,$84.91], p=0.0000).<br>
+     <strong>TWFE:</strong> $83.47 — diferencia (~$1.8) refleja heterogeneidad
+     intra-cliente. Ambos estimadores convergen en orden de magnitud.<br><br>
+     <strong>Caveat:</strong> el test de tendencias paralelas se rechaza
+     (F=998.601, p&lt;0.0001): el grupo inscripto ya crecía más rápido antes del corte.
+     Los estimadores son cota superior del efecto causal.
+   </div>
+<h3>4.4 Limitaciones y supuestos</h3>
+   <ul>
+     <li><strong>Selección en enrolled:</strong> clientes con mayor propensión de gasto
+     tienden a inscribirse más.</li>
+     <li><strong>Tendencias paralelas:</strong> test formal rechaza la hipótesis
+     (F=998.6, p&lt;0.0001).</li>
+     <li><strong>Conclusión:</strong> evidencia descriptiva sólida de asociación positiva.
+     Para causalidad limpia se requeriría un RCT o discontinuidad en la elegibilidad.</li>
+   </ul>
+</body></html>
